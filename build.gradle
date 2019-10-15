@@ -21,7 +21,6 @@ allprojects {
         maven {
             url 'https://www.myget.org/F/idscan-public/maven/'
         }
-        mavenLocal()
     }
 }
 
