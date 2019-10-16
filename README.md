@@ -168,10 +168,9 @@ But you can process scanned data in a different way. For example, you can displa
 
 #### Flashlight
 
-You have two ways to control flashlight:
+You have two ways to control the flashlight:
 
-1. You can set flashlight state during setup by calling ```setFlashState(boolean state)``` method:
-
+1. You can set the state of the flashlight during setup by calling ```setFlashState(boolean state)``` method:
 ```
 MultiScanActivity.build(this)
   ...
@@ -180,7 +179,7 @@ MultiScanActivity.build(this)
   .start(SCAN_ACTIVITY_CODE);
 ```
 
-2. You can change state of the flashlight by calling ```setFlashState(booelan state)```.
+2. You can change the state of the flashlight by calling ```setFlashState(booelan state)```.
 ```
 public class CustomScanActivity extends MultiScanActivity {
     ...
