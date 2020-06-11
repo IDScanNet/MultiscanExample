@@ -19,7 +19,7 @@ allprojects {
 ```
 dependencies {
     ...
-    implementation 'net.idscan.components.android:multiscan:1.0.0'
+    implementation 'net.idscan.components.android:multiscan:1.1.0'
     ...
 }
 ```
@@ -29,10 +29,10 @@ dependencies {
 dependencies {
     ...
     // For MRZ recognition.
-    implementation 'net.idscan.components.android:multiscan-mrz:1.0.0'
+    implementation 'net.idscan.components.android:multiscan-mrz:1.1.0'
 
     // For PDF417 recognition
-    implementation 'net.idscan.components.android:multiscan-pdf417:1.0.0'
+    implementation 'net.idscan.components.android:multiscan-pdf417:1.1.0'
     ...
 }
 ```
