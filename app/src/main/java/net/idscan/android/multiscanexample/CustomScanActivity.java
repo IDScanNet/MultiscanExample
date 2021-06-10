@@ -53,7 +53,7 @@ public class CustomScanActivity extends MultiScanActivity {
 
     private ToneGenerator _beep;
 
-    private Handler _handler = new Handler();
+    private final Handler _handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,7 +187,7 @@ public class CustomScanActivity extends MultiScanActivity {
         _tv_scanned_data.setText(sb);
     }
 
-    private Runnable _clearResult = new Runnable() {
+    private final Runnable _clearResult = new Runnable() {
         @Override
         public void run() {
             _result = null;
