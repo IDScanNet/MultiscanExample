@@ -39,6 +39,8 @@ import net.idscan.components.android.multiscan.components.mrz.MRZComponent;
 import net.idscan.components.android.multiscan.components.mrz.MRZData;
 import net.idscan.components.android.multiscan.components.pdf417.PDF417Component;
 import net.idscan.components.android.multiscan.components.pdf417.PDF417Data;
+import net.idscan.components.android.multiscan.components.zxing.ZXingComponent;
+import net.idscan.components.android.multiscan.components.zxing.ZXingData;
 
 public class CustomScanActivity extends MultiScanActivity {
     private static final String _PREFS_NAME = "CustomScanActivitySettings";
@@ -147,6 +149,7 @@ public class CustomScanActivity extends MultiScanActivity {
 
             MRZData mrzData = MRZComponent.extractDataFromDocument(result);
             PDF417Data pdf417Data = PDF417Component.extractDataFromDocument(result);
+            ZXingData zxingData = ZXingComponent.extractDataFromDocument(result);
 
             if (mrzData != null) {
                 showDocument(mrzData);
@@ -154,6 +157,10 @@ public class CustomScanActivity extends MultiScanActivity {
 
             if (pdf417Data != null) {
                 showDocument(pdf417Data);
+            }
+
+            if (zxingData != null) {
+                showDocument(zxingData);
             }
 
             _btn_confirm.setVisibility(View.VISIBLE);
@@ -185,6 +192,10 @@ public class CustomScanActivity extends MultiScanActivity {
             sb = sb + line3.value + "\n";
         }
         _tv_scanned_data.setText(sb);
+    }
+
+    private void showDocument(@NonNull ZXingData data) {
+        _tv_scanned_data.setText(new String(data.barcodeData));
     }
 
     private final Runnable _clearResult = new Runnable() {

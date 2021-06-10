@@ -37,6 +37,8 @@ import net.idscan.components.android.multiscan.components.mrz.MRZComponent;
 import net.idscan.components.android.multiscan.components.mrz.MRZData;
 import net.idscan.components.android.multiscan.components.pdf417.PDF417Component;
 import net.idscan.components.android.multiscan.components.pdf417.PDF417Data;
+import net.idscan.components.android.multiscan.components.zxing.ZXingComponent;
+import net.idscan.components.android.multiscan.components.zxing.ZXingData;
 
 public class MainActivity extends AppCompatActivity {
     private final static int SCAN_ACTIVITY_CODE = 0x001;
@@ -44,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
     private final static int REQUEST_CAMERA_PERMISSIONS_CUSTOM = 0x101;
 
     // Valid key.
-    private final static String LIC_KEY_PDF417 = "CXvWM398LO6KpEk7DfgBQ4AO96VGHyQk096KhLRtnYdU+uCkphzBZZUAja8JObd4OssAgJqvgMDvk2RNpawdlBEUw5/51JCesugLPSEIV0PbGlFRMOMfQANbKbhpY4HEFPcrXtC8BABnoz8et8kkFeBD/m0n4qidZSwMydGN3x0=";
-    private final static String LIC_KEY_MRZ = "aIs0Kivv2SMgNWrgXe0HXQdB5kKwRMGtTItcNoqTebgyzIkGWe5VmH/kiOrTUE1NP5HfpGoRkr0x7s57jF5k+JargB3hv0tlTsSDSOUk6iLTVkYG0T4sbq+/pzhQnHRv05YIHnDYxVhgqVQ1kyY6sBIsqHAorXtuZlWsTbCzli8=";
+    private final static String LIC_KEY_PDF417 = "WJEJW0aqr9vyq06nbUWIQ7b7X5CoFvZuLKwfH2+auGCNLLJlx8sdCuUKgQvI66DvNQ7gwVUGF0hHxypq1u7qd7qJtM/4cmWX1G9+cUmgijr9qy6sEC2nLXoDRjzc8UjYi4Al2dbpjdb1WFbH5AjbUF3u3U1fCntoBAafMGyA0/4=";
+    private final static String LIC_KEY_MRZ = "RBuW/cWlecJE2Uqlbpdt03hN9Swu68NowojB+sutwdAl5IJDwyjyfRgPKCsgU3t4si+ZbxPvlpU2ncUp4ZAI6rilQSUwsd/9lBtu1CItiptpaTy3tRcFhA1X9mPemooH5m23HMaY/nJ+uD6L/WKmjwYbfXRiQClhA3k/Feq1owc=";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
                         if (document != null) {
                             MRZData mrzData = MRZComponent.extractDataFromDocument(document);
                             PDF417Data pdf417Data = PDF417Component.extractDataFromDocument(document);
+                            ZXingData zxingData = ZXingComponent.extractDataFromDocument(document);
 
                             if (mrzData != null) {
                                 showDocument(mrzData);
@@ -108,6 +111,10 @@ public class MainActivity extends AppCompatActivity {
 
                             if (pdf417Data != null) {
                                 showDocument(pdf417Data);
+                            }
+
+                            if (zxingData != null) {
+                                showDocument(zxingData);
                             }
                         }
                     }
@@ -193,6 +200,11 @@ public class MainActivity extends AppCompatActivity {
         tv_result.setText(new String(data.barcodeData));
     }
 
+    private void showDocument(@NonNull ZXingData data) {
+        TextView tv_result = findViewById(R.id.tv_result);
+        tv_result.setText(new String(data.barcodeData));
+    }
+
     private void showDefaultScanView() {
         if (checkCameraPermissions()) {
             MultiScanActivity.build(this)
@@ -201,6 +213,9 @@ public class MainActivity extends AppCompatActivity {
                             .complete())
                     .withComponent(MRZComponent.build()
                             .withLicenseKey(LIC_KEY_MRZ)
+                            .complete())
+                    .withComponent(ZXingComponent.build()
+                            .withFormats(ZXingComponent.Format.values())
                             .complete())
                     .start(SCAN_ACTIVITY_CODE);
         } else {
@@ -216,6 +231,9 @@ public class MainActivity extends AppCompatActivity {
                             .complete())
                     .withComponent(MRZComponent.build()
                             .withLicenseKey(LIC_KEY_MRZ)
+                            .complete())
+                    .withComponent(ZXingComponent.build()
+                            .withFormats(ZXingComponent.Format.values())
                             .complete())
                     .withCustomActivity(CustomScanActivity.class)
                     .start(SCAN_ACTIVITY_CODE);

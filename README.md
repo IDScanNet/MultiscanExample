@@ -19,7 +19,7 @@ allprojects {
 ```
 dependencies {
     ...
-    implementation 'net.idscan.components.android:multiscan:1.5.0'
+    implementation 'net.idscan.components.android:multiscan:1.5.1'
     ...
 }
 ```
@@ -29,10 +29,13 @@ dependencies {
 dependencies {
     ...
     // For MRZ recognition.
-    implementation 'net.idscan.components.android:multiscan-mrz:1.5.0'
+    implementation 'net.idscan.components.android:multiscan-mrz:1.5.1'
 
     // For PDF417 recognition
-    implementation 'net.idscan.components.android:multiscan-pdf417:1.5.0'
+    implementation 'net.idscan.components.android:multiscan-pdf417:1.5.1'
+
+    // For ZXing support
+    implementation 'net.idscan.components.android:multiscan-zxing:1.5.1'
     ...
 }
 ```
@@ -55,9 +58,16 @@ MultiScanActivity.build(this)
       .withLicenseKey("** MRZ LICENSE KEY **")
       .complete())
 
+    // For ZXing component.
+    .withComponent(ZXingComponent.build()
+      .withFormats(ZXingComponent.Format.values())
+      .complete())
+
     .start(SCAN_ACTIVITY_CODE);
 ```
 **Note** need to replace ```** PDF417 LICENSE KEY **``` by your **License Key** for PDF417 component and ```** MRZ LICENSE KEY **``` by your **License Key** for MRZ component.
+
+**Note** instead of ```ZXingComponent.Format.values()``` you can setup one or multiple formats from list: **AZTEC** | **CODABAR** | **CODE_39** | **CODE_93** | **CODE_128** | **DATA_MATRIX** | **EAN_8** | **EAN_13** | **ITF** | **MAXICODE** | **QR_CODE** | **RSS_14** | **RSS_EXPANDED** | **UPC_A** | **UPC_E** | **UPC_EAN_EXTENSION**
 
 **Note** you can use one or more components at the same time. If you use the component you have to add the appropriate component dependency to the module **build.gradle** file.
 
@@ -76,6 +86,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
           if (document != null) {
             MRZData mrzData = MRZComponent.extractDataFromDocument(document);
             PDF417Data pdf417Data = PDF417Component.extractDataFromDocument(document);
+            ZXingData zxingData = ZXingComponent.extractDataFromDocument(document);
 
             if (mrzData != null) {
               // TODO: Handle MRZ data.
@@ -84,6 +95,11 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             if (pdf417Data != null) {
               // TODO: Handle PDF417 data.
             }
+
+            if (zxingData != null) {
+              // TODO: Handle ZXing data.
+            }
+
           }
         }
         break;
